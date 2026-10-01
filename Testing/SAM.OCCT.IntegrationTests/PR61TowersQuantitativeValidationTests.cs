@@ -41,8 +41,7 @@ namespace SAM.OCCT.IntegrationTests
     /// (−78.049 lost room + 10.408 unrelated southeast consolidation growth).
     /// </para>
     /// <para>
-    /// Fixture: whole-level-towers.sam. Values captured by actual execution — see
-    /// docs/reviews/evidence/PR61_TOWERS_VALIDATION.log.
+    /// Fixture: whole-level-towers.sam. Values captured by actual execution.
     /// </para>
     /// </summary>
     public class PR61TowersQuantitativeValidationTests
@@ -83,7 +82,7 @@ namespace SAM.OCCT.IntegrationTests
         private const double SliverVolumeThreshold = 3.0;
 
         // Exact expected metrics (m³ / m²), captured by actual execution
-        // (docs/reviews/evidence/PR61_TOWERS_VALIDATION.log). AbsTol is the pinning tolerance.
+        // AbsTol is the pinning tolerance.
         private const double AbsTol = 0.05;
         private const double Volume0 = 9605.396;
         private const double Volume04 = 9620.406;

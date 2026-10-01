@@ -5,8 +5,7 @@
 
     SAM_OCCT deliberately does NOT import the standard SAM Directory.Build.props used by
     other SAM-BIM repos: that file also drives AssemblyVersion and Deterministic, and
-    SAM_OCCT's existing 1.0.* AssemblyVersion / assembly-identity scheme must not change
-    (see AGENTS.md, PROJECT_PROGRESS.md). This file stamps FileVersion and
+    SAM_OCCT's existing 1.0.* AssemblyVersion / assembly-identity scheme must not change. This file stamps FileVersion and
     InformationalVersion ONLY, and ONLY on a CI/release build that supplies SAMVersion.
     A local developer build (SAMVersion unset) is completely untouched.
 

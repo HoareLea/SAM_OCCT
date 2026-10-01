@@ -20,8 +20,7 @@ namespace SAM.OCCT.IntegrationTests
     /// <summary>
     /// PR #61 review: Face3D-home parity comparison between base SHA c643b29 and PR head.
     /// <para>
-    /// Proven by worktree execution with the identical native DLL
-    /// (docs/reviews/evidence/PR61_FACE3D_BASE.log / PR61_FACE3D_HEAD.log):
+    /// Proven by worktree execution with the identical native DLL:
     /// solver raw cells = 20 and A-solver-matched spaces = 19 at BOTH base and head — the
     /// A-path under-close (19 vs 20, introduced by the E2 plane-targeting change merged at
     /// base c643b29) is pre-existing, not a PR #61 regression.
@@ -66,7 +65,7 @@ namespace SAM.OCCT.IntegrationTests
         /// Extend3D → Create.AdjacencyCluster with band=0.21.
         /// </para>
         /// <para>
-        /// Executed at base c643b29 (docs/reviews/evidence/PR61_FACE3D_BASE.log):
+        /// Executed at base c643b29:
         /// solver cells=20, A-solver-matched=19, B-clean-extend=20. PR #61 keeps solver and
         /// A-matched identical and moves B-clean-extend to 19 (coplanar-cap coalescing).
         /// </para>
@@ -102,7 +101,6 @@ namespace SAM.OCCT.IntegrationTests
             output.WriteLine("B-clean-extend (band=0.21): spaces={0}", spacesB);
 
             // Pin the solver raw cell count — proven identical at c643b29 base
-            // (docs/reviews/evidence/PR61_FACE3D_BASE.log).
             Assert.Equal(20, solverCells);
 
             // Pin the A-solver-matched under-close — proven pre-existing at c643b29 base.

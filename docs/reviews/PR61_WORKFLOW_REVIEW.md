@@ -77,7 +77,7 @@ SAMOCCT.AutoTune3D Discover (discover=true)
 | **AutoTune contract** | Original escalation-solver AutoTune3D must be restored under GUID `9de8b4c0` | Restored exactly from c643b29: version 0.1.0, 9 original inputs (`_panels`, `minBucketSize_`, `thicknessFactor_`, `alignColinearOffset_`, `normalizeCapOffset_`, `maxRounds_`, `maxExtendLadder_`, `escalateBucket_`, `_run`), 9 outputs (`Panels`, `NakedPoints`, `Diagnostics`, `Successful`, `NakedWires`, `SourceMap`, `ClosureReport`, `Rounds`, `RoundsAccepted`) |
 | **New component naming** | Discovery sweep component must have distinct class | Renamed to `SAMOCCTAutoTune3DDiscover` with display "SAMOCCT.AutoTune3D (Discover)", GUID `dce4ce6d`, v0.4.0 |
 | **GH tests** | Replace tautological literal-with-same-literal tests | Created dedicated `Testing/SAM.OCCT.GrasshopperTests` project that instantiates real GH components; old tautological tests removed from integration project |
-| **Face3D parity** | Prove 19-vs-20 is pre-existing at c643b29 | Real worktree executions committed (`(removed) PR61_FACE3D_BASE.log` / `PR61_FACE3D_HEAD.log`): solver=20 and A-matched=19 at both base and head (A under-close pre-existing). B-clean-extend is NOT at parity (base 20 → head 19, coplanar-cap coalescing) — disclosed and pinned (F8) |
+| **Face3D parity** | Prove 19-vs-20 is pre-existing at c643b29 | Real worktree executions committed (`PR61_FACE3D_BASE.log` / `PR61_FACE3D_HEAD.log`): solver=20 and A-matched=19 at both base and head (A under-close pre-existing). B-clean-extend is NOT at parity (base 20 → head 19, coplanar-cap coalescing) — disclosed and pinned (F8) |
 | **Towers validation** | Replace weak assertions (>=25, >=26) with exact values | Exact assertions: gap0=31, gap0.4=30, gap0.5=29 cells; volumes, drifts, slivers quantified; gap 0.4 documented as accepted setting, 0.5 as over-aggressive |
 | **Documentation** | Correct inaccurate comments and PR body | Updated review doc, evidence doc, Modeling-Guide references |
 
@@ -125,7 +125,7 @@ All 15 golden-master pins pass unchanged (5 fixtures × raw/managed/managed-0.21
 ### Proven Face3D base/head result (real executions)
 
 See `docs/reviews/PR61_FACE3D_BASE_HEAD.md` and the committed logs
-`(removed) PR61_FACE3D_BASE.log` / `PR61_FACE3D_HEAD.log` — identical native DLL
+`PR61_FACE3D_BASE.log` / `PR61_FACE3D_HEAD.log` — identical native DLL
 SHA256 `81CDABA60E5E0CF270371FDB3DED4C7E6201EF38B23D0D56AF9EEFD508DBBD4F` for both runs:
 
 - Solver raw cells: 20 = 20 (parity).
@@ -147,7 +147,7 @@ SHA256 `81CDABA60E5E0CF270371FDB3DED4C7E6201EF38B23D0D56AF9EEFD508DBBD4F` for bo
 Gap 0.4: +15.010 m³ fully attributed (sliver absorption +3.833; exact 157.574 → 78.049 + 79.526
 north-strip split; +7.610/+7.427 double-wall void reclamation) — no legitimate room lost.
 Gap 0.5: destroys the west north-strip room (78.049 m³, 28.809 m² floor); −67.640 m³ vs gap 0.4
-fully attributed (−78.049 + 10.408). Log: `(removed) PR61_TOWERS_VALIDATION.log`.
+fully attributed (−78.049 + 10.408). Log: `PR61_TOWERS_VALIDATION.log`.
 
 ### Legacy/new AutoTune migration
 
