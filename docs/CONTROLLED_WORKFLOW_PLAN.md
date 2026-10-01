@@ -208,7 +208,7 @@ Read docs/CONTROLLED_WORKFLOW_PLAN.md (committed on this branch). Repo SAM-BIM/S
 feat/cw-p0-baseline off sow/2026-Q3 (gate hardening merged: 065b02c). Investigation phase — do NOT modify
 solver, builder, or Grasshopper code; only fixtures, one test class, and docs.
 
-1. Copy from "C:\Users\michal.dengusiak\OneDrive - Tetra Tech, Inc\Documents\SAM_daily\2026-07-06-MissingWalls\"
+1. Copy from "<SAM_daily>\2026-07-06-MissingWalls\"
    into Testing/SAM.OCCT.IntegrationTests/Fixtures/ControlledWorkflow/: Panels-9SpacesModel.sam and the
    re-exported Spaces-9SpacesModel.sam. Verify 9 spaces with 9 DISTINCT single-line names; print the
    GUID | name | location table and verify it matches plan §0.1 (West3 = the double-height-profile

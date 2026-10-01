@@ -254,7 +254,7 @@ Opus 4.8 only if the adjacency-equivalence acceptance proves geometrically subtl
 
 ---
 
-Work in C:\Users\michal.dengusiak\Documents\GitHub\SAM-BIM\SAM_OCCT on branch `fix/solver-raw-first`
+Work in the SAM_OCCT checkout on branch `fix/solver-raw-first`
 (PR #48). Read `docs/TRUE_3D_PANEL_SOLVER_IMPLEMENTATION_PLAN.md` §E Phase 7 (your scope) and §F–§N as
 reference; `TESTING.md` ("Per-level frames" and golden-master sections); and this document. Do not touch
 other repos except read-only. Every new `.cs` gets the SPDX header from COPYRIGHT_HEADER.txt. xUnit

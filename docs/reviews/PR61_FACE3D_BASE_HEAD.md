@@ -35,8 +35,8 @@ records `B=20` in its console output (pinning `B=19` at base would — correctly
 
 | Run | Commit | Log |
 |-----|--------|-----|
-| Base | c643b29 | `docs/reviews/evidence/PR61_FACE3D_BASE.log` |
-| Head | 171e4a5 | `docs/reviews/evidence/PR61_FACE3D_HEAD.log` |
+| Base | c643b29 | `(removed) PR61_FACE3D_BASE.log` |
+| Head | 171e4a5 | `(removed) PR61_FACE3D_HEAD.log` |
 
 ---
 
@@ -64,7 +64,7 @@ records `B=20` in its console output (pinning `B=19` at base would — correctly
 ## Towers Quantitative Validation
 
 Test: `PR61TowersQuantitativeValidationTests` — 4 passed / 0 failed / 0 skipped.
-Log: `docs/reviews/evidence/PR61_TOWERS_VALIDATION.log`
+Log: `(removed) PR61_TOWERS_VALIDATION.log`
 Pipeline: `Extend3D(band=0.4, fill=0.4, dir=false, bucket=0.4, align=0.3, doubleWallGap=g)`
 → `Create.AdjacencyCluster` on `whole-level-towers.sam`.
 
