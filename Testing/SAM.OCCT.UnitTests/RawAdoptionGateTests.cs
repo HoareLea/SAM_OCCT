@@ -113,7 +113,7 @@ namespace SAM.OCCT.UnitTests
             Assert.Equal(expected, outcome);
         }
 
-        // ── Under-split gate (codex #7, P4): the finer watertight-but-wrong net ────────────────────
+        // ── Under-split gate (P4): the finer watertight-but-wrong net ────────────────────
 
         [Fact]
         public void EvaluateRawAdoption_UnderSplitWithLowDroppedRatio_ReturnsRejectedUnderSplit()

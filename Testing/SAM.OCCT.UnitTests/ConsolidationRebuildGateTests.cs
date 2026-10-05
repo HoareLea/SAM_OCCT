@@ -8,7 +8,7 @@ namespace SAM.OCCT.UnitTests
 {
     /// <summary>
     /// Truth table for <see cref="Panel3DSnapSolver.AcceptConsolidationRebuild"/> - the consolidation-rebuild
-    /// acceptance rule hardened in P4 (codex #3, docs/CELLCOMPLEX_FIRST_HANDOVER.md). Pure and native-free.
+    /// acceptance rule hardened in P4 (docs/CELLCOMPLEX_FIRST_HANDOVER.md). Pure and native-free.
     /// The regression baseline is the APPENDED set's own decoded cell/naked counts (the fallback the rebuild
     /// would replace), not the lower pre-append resolve count that previously let a separator-dissolving
     /// rebuild through.
@@ -34,7 +34,7 @@ namespace SAM.OCCT.UnitTests
         [Fact]
         public void AcceptConsolidationRebuild_DissolvesSeparator_RejectsFewerCellsThanAppended()
         {
-            // The codex #3 case: the direct rebuild dissolves a shared separator, forming FEWER cells than the
+            // The shared-separator-dissolved case: the direct rebuild dissolves a shared separator, forming FEWER cells than the
             // appended fallback (2 rooms -> 1). It must be rejected so the appended set (which keeps both rooms)
             // is retained. Pre-fix this compared against the lower pre-append count and was wrongly accepted.
             Assert.False(Panel3DSnapSolver.AcceptConsolidationRebuild(

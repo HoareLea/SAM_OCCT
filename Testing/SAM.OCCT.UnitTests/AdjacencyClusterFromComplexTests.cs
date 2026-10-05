@@ -57,7 +57,7 @@ namespace SAM.OCCT.UnitTests
             // Exactly one of the two keeps the source's Guid; the other gets a fresh Guid instead of colliding.
             Assert.Single(panels, x => x.Guid == sourcePanel.Guid);
             // BUT both inherit the source's construction and type - they are pieces of the same physical wall,
-            // so only the Guid is freshened, never the metadata (codex P2 follow-up on the collision fix).
+            // so only the Guid is freshened, never the metadata.
             Assert.All(panels, x => Assert.Equal("Source Wall", x.Construction?.Name));
             Assert.All(panels, x => Assert.Equal(PanelType.Wall, x.PanelType));
             Assert.Contains(diagnostics, x => x.Contains("SAM_OCCT_ANALYTICAL_PANEL_IDENTITY") && x.Contains("1 inherited construction/type but got a fresh Guid"));

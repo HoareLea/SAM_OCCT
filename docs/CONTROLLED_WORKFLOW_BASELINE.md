@@ -86,7 +86,7 @@ MISSING: East1 (nearest cell 1, 2.79 m) · South1 (nearest cell 1, 1.98 m)
 
 ## 5. Missing-wall determination — **one pair genuinely lacks a full-height separator; the rest are present-but-unused**
 
-Separator scan (vertical panel strictly between the two locations, requiring the candidate span the **full expected floor-to-ceiling level height** — not just a narrow band around the two seed elevations, per codex review on PR #57):
+Separator scan (vertical panel strictly between the two locations, requiring the candidate span the **full expected floor-to-ceiling level height** — not just a narrow band around the two seed elevations):
 
 | Failed pair | Candidate separator panels (present but unused) |
 |---|---|

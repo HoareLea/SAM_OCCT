@@ -42,7 +42,7 @@ namespace SAM.OCCT.IntegrationTests
     /// (see the per-fixture table this test emits, mirrored into TESTING.md), the assertion pins the
     /// CURRENT value with a tracking comment rather than skipping - the harness is the measuring
     /// stick the E-track (docs/EXTEND3D_ROBUST_HANDOVER.md) and P4 gate-hardening
-    /// (docs/CELLCOMPLEX_FIRST_HANDOVER.md §9-10) phases re-run against.
+    /// (docs/CELLCOMPLEX_FIRST_HANDOVER.md §3, P4) phases re-run against.
     /// </summary>
     public class WorkflowParityIntegrationTests
     {
@@ -372,7 +372,7 @@ namespace SAM.OCCT.IntegrationTests
         /// <summary>
         /// Records, per fixture and workflow, whether the invariants below CURRENTLY hold - "false"
         /// entries are known-broken today and are asserted as such (tracking comment on each), never
-        /// silently skipped (docs/CELLCOMPLEX_FIRST_HANDOVER.md P1 task 3). A fixture/workflow not
+        /// silently skipped (docs/CELLCOMPLEX_FIRST_HANDOVER.md §3, P1). A fixture/workflow not
         /// listed here is expected clean on all three invariants.
         /// </summary>
         private static readonly Dictionary<(string fixture, string workflow), Expectation> Expectations = new Dictionary<(string, string), Expectation>

@@ -12,7 +12,7 @@ using Xunit;
 namespace SAM.OCCT.IntegrationTests
 {
     /// <summary>
-    /// P4 gate-hardening fixture (docs/CELLCOMPLEX_FIRST_HANDOVER.md §9): the codex #7 "under-split" hole -
+    /// P4 gate-hardening fixture (docs/CELLCOMPLEX_FIRST_HANDOVER.md §3, P4): the "under-split" hole -
     /// a raw build that adopts a watertight envelope as ONE cell even though an input partition should have
     /// divided it into two. Built programmatically so it is self-contained. Native-gated.
     ///
@@ -33,8 +33,8 @@ namespace SAM.OCCT.IntegrationTests
         /// two rooms into one watertight cell. Only one face of seven is dropped (ratio ~14%, well under the 30%
         /// dropped-ratio ceiling), so the coarse dropped-ratio check cannot see it - this is exactly the case the
         /// under-split gate exists for. <paramref name="tiltDegrees"/> rotates the whole room about world Y so
-        /// the room's OWN "up" (its true ceiling-ward direction) is tilted relative to world Z - the codex #7
-        /// review-round-2 scenario: a naive world-Z measurement inflates the WORLD axis-aligned bounding box of
+        /// the room's OWN "up" (its true ceiling-ward direction) is tilted relative to world Z - the tilted-room
+        /// scenario: a naive world-Z measurement inflates the WORLD axis-aligned bounding box of
         /// a tilted room and can hide the under-split.</summary>
         private static List<Panel> DoorCutPartitionTwoRoom(double tiltDegrees = 0)
         {
@@ -88,7 +88,7 @@ namespace SAM.OCCT.IntegrationTests
         {
             Skip.IfNot(NativeProbe.Available, "Native SAM.Occt.Native library is not available.");
 
-            // False-positive control (the Fable atrium/warehouse concern): a large single room with NO dropped
+            // False-positive control (the large single-room atrium/warehouse false-positive concern): a large single room with NO dropped
             // interior wall must be adopted raw untouched - the under-split gate keys on a dropped room-DIVIDING
             // partition, not on a cell merely being big. Same 8x4x3 box as the under-split fixture, minus the
             // partition, so any spurious firing here would be a direct false positive.
@@ -107,7 +107,7 @@ namespace SAM.OCCT.IntegrationTests
         {
             Skip.IfNot(NativeProbe.Available, "Native SAM.Occt.Native library is not available.");
 
-            // Codex #7 review, round 2: the SAME door-cut room, rigidly tilted 30 deg about world Y. Solve3D
+            // Tilted-room case: the SAME door-cut room, rigidly tilted 30 deg about world Y. Solve3D
             // auto-detects the level normal and sets Panel3DSnapSolver.Up to it, so this exercises the
             // under-split gate on a genuinely tilted level (not just world-Z-vertical geometry) - the exact
             // scenario a naive world-axis-aligned-bounding-box measurement gets wrong (the room's world AABB is
@@ -127,7 +127,7 @@ namespace SAM.OCCT.IntegrationTests
         /// <c>tiltDegrees</c> (which rotates about a HORIZONTAL axis, tilting Up itself): a pure yaw leaves Up
         /// untouched but rotates the room's footprint away from the world/level X/Y axes, which inflates any
         /// AXIS-ALIGNED bounding box (world OR level-frame) even though Up needs no correction at all - the
-        /// codex #7 review, round 3 scenario.</summary>
+        /// yawed-room scenario.</summary>
         private static List<Panel> DoorCutPartitionTwoRoomYawed(double yawDegrees)
         {
             double angle = yawDegrees * System.Math.PI / 180.0;
@@ -152,7 +152,7 @@ namespace SAM.OCCT.IntegrationTests
         {
             Skip.IfNot(NativeProbe.Available, "Native SAM.Occt.Native library is not available.");
 
-            // Codex #7 review, round 3: the door-cut room rotated 45 deg in PLAN (about world Z - Up stays
+            // Yawed-room case: the door-cut room rotated 45 deg in PLAN (about world Z - Up stays
             // world Z, untilted). An axis-aligned bounding box of the rotated 8x4 footprint is inflated toward
             // its diagonal (~8.9 m) versus the room's true 8 m/4 m dimensions, which understates the dropped
             // partition's plan-width RATIO against that inflated box and can hide the under-split even though
@@ -168,7 +168,7 @@ namespace SAM.OCCT.IntegrationTests
 
         /// <summary>The SAME door-cut divider, but exported as TWO coplanar fragments side by side (e.g. split
         /// at a door head) instead of one panel - each fragment alone spans only half the room's plan width.
-        /// Codex #7 review, round 4: without grouping, each fragment independently fails the plan-width ratio
+        /// Without grouping, each fragment independently fails the plan-width ratio
         /// even though together they reconstruct the full-size divider.</summary>
         private static List<Panel> DoorCutPartitionTwoRoomFragmentedDivider()
         {
@@ -190,7 +190,7 @@ namespace SAM.OCCT.IntegrationTests
         {
             Skip.IfNot(NativeProbe.Available, "Native SAM.Occt.Native library is not available.");
 
-            // Codex #7 review, round 4: 2 dropped fragments of 8 total faces (25%, under the 30% dropped-ratio
+            // 2 dropped fragments of 8 total faces (25%, under the 30% dropped-ratio
             // ceiling), each spanning only 50% of the room's plan width alone - below the 70% threshold without
             // grouping. Exercises GroupCoplanarFaces: the two fragments are pooled into one 4 m-wide measurement
             // (100% of the room's plan width), correctly recognised as the single divider they represent.
@@ -207,7 +207,7 @@ namespace SAM.OCCT.IntegrationTests
         /// <summary>The SAME 8x4x3 box with NO partition (one legitimate room), plus an internal triangular
         /// brace panel at x=4 whose vertices touch the floor, ceiling and both side walls - a right triangle
         /// spanning the FULL height and plan width by extrema alone, but filling only 50% of that bounding
-        /// rectangle's area. Codex #7 review, round 4: a sparse/triangular fragment (a brace, gusset, stair
+        /// rectangle's area. A sparse/triangular fragment (a brace, gusset, stair
         /// stringer) must not be mistaken for a room-dividing wall just because it touches every extreme.</summary>
         private static List<Panel> SingleRoomWithInteriorTriangularBrace()
         {
@@ -230,7 +230,7 @@ namespace SAM.OCCT.IntegrationTests
         {
             Skip.IfNot(NativeProbe.Available, "Native SAM.Occt.Native library is not available.");
 
-            // Coverage false-positive control (codex #7 review, round 4): the triangular brace touches every
+            // Coverage false-positive control: the triangular brace touches every
             // height/plan extreme (would satisfy both ratio checks on extrema alone) but covers only 50% of its
             // own bounding rectangle - below the 60% coverage floor - so it must NOT be mistaken for a divider.
             // This is a single legitimate room; a false rejection here pushes it onto the weaker managed path.
@@ -243,7 +243,7 @@ namespace SAM.OCCT.IntegrationTests
         }
 
         /// <summary>The SAME 8x4x3 box with the SAME triangular brace, but exported TWICE at the exact same
-        /// footprint (a duplicate/overlapping export - codex #7 review, round 5). Naively SUMMING each member's
+        /// footprint (a duplicate/overlapping export). Naively SUMMING each member's
         /// area would double the triangle's true 50%-covered footprint to a fictitious 100%, wrongly clearing the
         /// 60% coverage floor; the union-area fix must still see only 50%.</summary>
         private static List<Panel> SingleRoomWithDuplicateTriangularBrace()
@@ -266,7 +266,7 @@ namespace SAM.OCCT.IntegrationTests
         {
             Skip.IfNot(NativeProbe.Available, "Native SAM.Occt.Native library is not available.");
 
-            // Coverage-union false-positive control (codex #7 review, round 5): summing the two duplicate
+            // Coverage-union false-positive control: summing the two duplicate
             // triangles' areas gives a fictitious 100% coverage (2x the true 50%); the fix computes UNION
             // coverage via sampling, so this must still read 50% (< 60%) and stay silent.
             List<Panel> panels = SingleRoomWithDuplicateTriangularBrace();
@@ -279,7 +279,7 @@ namespace SAM.OCCT.IntegrationTests
 
         /// <summary>The SAME 8x4x3 box with NO partition (one legitimate room), plus TWO disconnected coplanar
         /// fins on the x=4 plane - each 1.5 m wide (plan) and full height, separated by a 0.5 m gap (well beyond
-        /// any "same feature" tolerance). Codex #7 review, round 5: pooled WITHOUT a connectivity check, the two
+        /// any "same feature" tolerance). Pooled WITHOUT a connectivity check, the two
         /// fins' combined plan span (3.5 m of the room's 4 m width) and combined area coverage (~86%) would both
         /// clear their thresholds, even though neither fin - nor any contiguous wall-to-wall element - actually
         /// exists; each fin alone spans only 1.5/4 = 37.5% of the room's plan width.</summary>
@@ -303,7 +303,7 @@ namespace SAM.OCCT.IntegrationTests
         {
             Skip.IfNot(NativeProbe.Available, "Native SAM.Occt.Native library is not available.");
 
-            // Connectivity false-positive control (codex #7 review, round 5): two coplanar but SPATIALLY
+            // Connectivity false-positive control: two coplanar but SPATIALLY
             // DISCONNECTED fins must be measured as two independent (small) elements, never pooled into one
             // fictitious wide "divider" just because they share an infinite plane. This is a single legitimate
             // room; a false rejection here pushes it onto the weaker managed path.

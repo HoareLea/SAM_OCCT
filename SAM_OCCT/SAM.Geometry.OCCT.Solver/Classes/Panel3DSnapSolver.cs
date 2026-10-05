@@ -46,7 +46,7 @@ namespace SAM.Geometry.OCCT.Solver
         /// stub cannot extend unrealistically far. Mirrors the 2D <c>SnappedWall.ExtensionLimitLengthRatio</c>.</summary>
         public const double EXTENSION_LIMIT_LENGTH_RATIO = 0.49;
 
-        /// <summary>Under-split gate (codex #7): a dropped wall-like face counts as a room-dividing partition
+        /// <summary>Under-split gate: a dropped wall-like face counts as a room-dividing partition
         /// only when its vertical extent spans at least this fraction of the cell it sits inside AND its plan
         /// width (perpendicular to its own normal) spans at least <see cref="UNDER_SPLIT_MIN_PLAN_RATIO"/> of the
         /// cell - i.e. it very nearly fills the cell's cross-section, the way a wall that genuinely divides a
@@ -55,13 +55,13 @@ namespace SAM.Geometry.OCCT.Solver
         /// positive pushes a well-modelled input onto the weaker managed pipeline.</summary>
         public const double UNDER_SPLIT_MIN_HEIGHT_RATIO = 0.8;
 
-        /// <summary>Under-split gate (codex #7): the minimum fraction of the containing cell's plan width - in
+        /// <summary>Under-split gate: the minimum fraction of the containing cell's plan width - in
         /// the horizontal direction perpendicular to the dropped partition's own normal - the partition must
         /// span to count as a room divider (a real partition reaches wall-to-wall). Paired with
         /// <see cref="UNDER_SPLIT_MIN_HEIGHT_RATIO"/>; both must hold.</summary>
         public const double UNDER_SPLIT_MIN_PLAN_RATIO = 0.7;
 
-        /// <summary>Under-split gate (codex #7): the minimum fraction of its own (height x plan) bounding
+        /// <summary>Under-split gate: the minimum fraction of its own (height x plan) bounding
         /// rectangle a dropped partition's actual area must fill to count as a room divider. Height/plan alone
         /// are just extrema (max-min of the vertex projections), so a sparse or triangular face (a brace, gusset,
         /// stair stringer, or small triangular infill panel) can touch all four extremes of its bounding
@@ -917,7 +917,7 @@ namespace SAM.Geometry.OCCT.Solver
 
             // The APPENDED (unimprinted) set is the fallback kept if the consolidation rebuild is rejected, so
             // its OWN decoded cell/naked counts are the correct no-regress baseline - NOT the pre-append
-            // resolveCellCount (codex #3). resolveCellCount is measured before patches/retained were appended
+            // resolveCellCount. That count is measured before patches/retained were appended
             // and is typically LOWER, which let a rebuild that DISSOLVED a separator (fewer cells than the
             // appended fallback = two rooms merged into one) still pass rebuiltCells >= resolveCellCount and be
             // wrongly adopted. Decode the appended set ONCE here (only when a rebuild is attempted) and reuse it
@@ -958,7 +958,7 @@ namespace SAM.Geometry.OCCT.Solver
                     int rebuiltNaked = ResolveStage.NakedEdgeCount(rebuiltFaces, occtOptions);
 
                     // Accept iff the rebuild does not regress versus the appended-unimprinted fallback it would
-                    // replace (§H / §I acceptance rule); baseline is the appended set's OWN counts (codex #3).
+                    // replace (§H / §I acceptance rule); baseline is the appended set's OWN counts.
                     if (AcceptConsolidationRebuild(rebuiltFaces.Count, rebuiltCells, rebuiltNaked, appendedCells, appendedNaked))
                     {
                         finalFaces = rebuiltFaces;
@@ -996,7 +996,7 @@ namespace SAM.Geometry.OCCT.Solver
 
                 if (tryRebuild)
                 {
-                    // Reuse the up-front appended decode (codex #3) - the fallback geometry is exactly `appended`,
+                    // Reuse the up-front appended decode - the fallback geometry is exactly `appended`,
                     // already decoded for the acceptance baseline, so do not decode it a second time.
                     cellVolumes = appendedVolumes;
                     cellCount = appendedCells;
@@ -1440,7 +1440,7 @@ namespace SAM.Geometry.OCCT.Solver
 
         /// <summary>
         /// Counts adopted cells that harbour a dropped room-dividing partition - the under-split gate's
-        /// geometric measurement (codex #7, P4). Dropped (unrepresented) faces are first grouped by shared
+        /// geometric measurement (P4). Dropped (unrepresented) faces are first grouped by shared
         /// infinite plane (<see cref="GroupCoplanarFaces"/>), then split into spatially-CONNECTED clusters within
         /// each plane (<see cref="SplitByConnectivity"/> - disconnected coplanar elements, e.g. separate
         /// decorative fins scattered across one room, must never be pooled just because they share a plane). A
@@ -1457,7 +1457,7 @@ namespace SAM.Geometry.OCCT.Solver
         /// gusset that merely touches all four extremes without filling the cross-section, and never double-counts
         /// overlapping/duplicate-exported members). Such a cluster is a partition the raw build failed to
         /// imprint, so the rooms it should have separated merged into one watertight cell.
-        /// <para><b>Vertex-projected measurement (codex #7 review, rounds 2 and 3).</b> Height/plan-width are
+        /// <para><b>Vertex-projected measurement.</b> Height/plan-width are
         /// measured by projecting the ACTUAL boundary vertices of the face/shell onto a direction (<see cref="Up"/>
         /// for height, the in-level tangent for plan-width) and taking max-min - never a bounding box's extent,
         /// which is only tight when the room happens to be axis-aligned to it (a tilted OR merely plan-yawed room
@@ -1504,8 +1504,8 @@ namespace SAM.Geometry.OCCT.Solver
                 foreach (List<Face3D> cluster in SplitByConnectivity(coplanarGroup, upUnit, tangentUnit, tolerance))
                 {
                     // Pool every member's vertices/interior point - a divider split into TOUCHING pieces is
-                    // measured as the one physical element it represents (codex #7 review, round 4); a scatter of
-                    // disconnected elements was already split into separate clusters above (round 5).
+                    // measured as the one physical element it represents; a scatter of
+                    // disconnected elements was already split into separate clusters above.
                     double faceHeightMin = double.PositiveInfinity, faceHeightMax = double.NegativeInfinity;
                     double facePlanMin = double.PositiveInfinity, facePlanMax = double.NegativeInfinity;
                     List<Point3D> internalPoints = new List<Point3D>();
@@ -1539,9 +1539,8 @@ namespace SAM.Geometry.OCCT.Solver
                     double facePlan = facePlanMax - facePlanMin;
 
                     // Coverage: a sparse/triangular fragment (a brace, gusset, stair stringer) can touch all four
-                    // extrema of its bounding rectangle without nearly FILLING it (codex #7 review, round 4);
-                    // union (not summed) area also protects against overlapping/duplicate-exported members
-                    // (codex #7 review, round 5).
+                    // extrema of its bounding rectangle without nearly FILLING it;
+                    // union (not summed) area also protects against overlapping/duplicate-exported members.
                     double coverage = ComputeUnionCoverageRatio(cluster, plane, upUnit, tangentUnit, faceHeightMin, faceHeightMax, facePlanMin, facePlanMax, tolerance);
                     if (coverage < UNDER_SPLIT_MIN_COVERAGE_RATIO)
                     {
@@ -1606,7 +1605,7 @@ namespace SAM.Geometry.OCCT.Solver
         /// <see cref="GroupCoplanarFaces"/> uses for plane offset). Union-find over all pairs (the group is always
         /// small - a handful of dropped faces at most). Prevents disconnected coplanar elements sharing one
         /// infinite plane (e.g. separate decorative fins scattered across a room) from being pooled into one
-        /// fictitious "divider" just because they happen to lie on the same plane (codex #7 review, round 5).</summary>
+        /// fictitious "divider" just because they happen to lie on the same plane.</summary>
         private static List<List<Face3D>> SplitByConnectivity(List<Face3D> group, Vector3D upUnit, Vector3D tangentUnit, double tolerance)
         {
             int n = group.Count;
@@ -1675,8 +1674,8 @@ namespace SAM.Geometry.OCCT.Solver
         }
 
         /// <summary>The fraction of <paramref name="cluster"/>'s pooled (height x plan) bounding rectangle
-        /// actually covered by the UNION of its members' faces, sampled on a bounded grid (codex #7 review, round
-        /// 5): each sample point counts once if it lands inside ANY member, so overlapping or duplicate-exported
+        /// actually covered by the UNION of its members' faces, sampled on a bounded grid:
+        /// each sample point counts once if it lands inside ANY member, so overlapping or duplicate-exported
         /// members never inflate the ratio the way summing individual face areas would. All members share
         /// <paramref name="referencePlane"/> (by construction of <see cref="GroupCoplanarFaces"/>), so one 2D
         /// conversion per member (via <see cref="Plane.Convert(Face3D)"/>, the same primitive
@@ -1756,7 +1755,7 @@ namespace SAM.Geometry.OCCT.Solver
         /// <summary>Groups <paramref name="face3Ds"/> by shared infinite plane (parallel normal within 0.99 dot
         /// product, and within 0.05 m of the same plane offset - the same "same plane" tolerances
         /// <see cref="IsRepresented"/> already uses) - so a single physical partition exported as several
-        /// coplanar fragments (e.g. split at a door head) is measured as ONE element (codex #7 review, round 4)
+        /// coplanar fragments (e.g. split at a door head) is measured as ONE element
         /// rather than each fragment independently. A face with no plane starts its own singleton group.</summary>
         private static List<List<Face3D>> GroupCoplanarFaces(List<Face3D> face3Ds)
         {
@@ -3959,7 +3958,7 @@ namespace SAM.Geometry.OCCT.Solver
 
                 droppedRatio = rawFace3Ds.Count == 0 ? 0 : (double)droppedFace3Ds.Count / rawFace3Ds.Count;
 
-                // Codex #7: the finer "watertight-but-wrong" net the dropped-RATIO check misses - a dropped
+                // The finer "watertight-but-wrong" net the dropped-RATIO check misses - a dropped
                 // wall-like face sitting strictly inside an adopted cell is a partition that failed to split its
                 // room, so two rooms merged into one cell (droppedRatio stays low because only one face dropped).
                 underSplitCellCount = CountUnderSplitCells(droppedFace3Ds, solverCells, Up, VerticalAngleTolerance, rawOptions.FuzzyTolerance, rawOptions.Tolerance, out underSplitDetails);
@@ -4058,7 +4057,7 @@ namespace SAM.Geometry.OCCT.Solver
         /// sliver artifact cell, or too many input faces silently dropped because they bound no closed cell) -
         /// each closes a distinct failure mode found on real fixtures
         /// (docs/TRUE_3D_PANEL_SOLVER_IMPLEMENTATION_PLAN.md §C, Phase 1). <paramref name="underSplitCellCount"/>
-        /// (codex #7, P4) is the count of adopted cells found to harbour a dropped room-dividing partition -
+        /// is the count of adopted cells found to harbour a dropped room-dividing partition -
         /// the caller computes it geometrically (<see cref="CountUnderSplitCells"/>) and passes it here so this
         /// rule stays pure and unit-testable across every branch.
         /// </summary>
@@ -4095,7 +4094,7 @@ namespace SAM.Geometry.OCCT.Solver
         }
 
         /// <summary>
-        /// The consolidation-rebuild acceptance rule (codex #3, P4), pure and native-free so it is unit-testable:
+        /// The consolidation-rebuild acceptance rule (P4), pure and native-free so it is unit-testable:
         /// the direct (history-capturing) rebuild of the appended set is adopted only when it does NOT regress
         /// versus the appended-unimprinted fallback it would replace - it produced faces, kept AT LEAST as many
         /// cells (a rebuild that DISSOLVED a room-dividing separator would form fewer, silently merging rooms),

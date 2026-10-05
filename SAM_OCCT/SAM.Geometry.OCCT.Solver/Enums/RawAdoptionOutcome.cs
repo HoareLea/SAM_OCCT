@@ -29,7 +29,7 @@ namespace SAM.Geometry.OCCT.Solver
         /// <summary>At least one dropped wall-like input face lies strictly INTERIOR to a single adopted cell,
         /// spanning a real fraction of its height - a room-dividing partition the raw build failed to imprint,
         /// so two (or more) rooms silently merged into one cell. Watertight-but-wrong, and invisible to the
-        /// dropped-RATIO check when only a few partitions are dropped out of many faces (codex #7).</summary>
+        /// dropped-RATIO check when only a few partitions are dropped out of many faces.</summary>
         RejectedUnderSplit
     }
 }

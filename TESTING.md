@@ -1101,9 +1101,9 @@ plan's §E Phase 9 originally sized (that remains a legitimate, larger follow-up
 4. **Optional `Panel3DSnapSolver` façade slimming** - `docs/P6_ARCHITECTURE_REVIEW.md` §O item `O7`
    (extract `FinalizeAndValidate` + legacy statics out of the ~2,300-line façade, behaviour-preserving);
    still "can defer," not required by any phase's acceptance criteria.
-5. **Deferred codex review findings (PR #48)** - eight inline findings from the `chatgpt-codex-connector`
-   bot were assessed against the current code and recorded (with line numbers, mechanism, trigger, and
-   fix direction) in `docs/TRUE_3D_PANEL_SOLVER_IMPLEMENTATION_PLAN.md` "Deferred codex review findings
+5. **Deferred review findings (PR #48)** - eight inline review findings
+   were assessed against the current code and recorded (with line numbers, mechanism, trigger, and
+   fix direction) in `docs/TRUE_3D_PANEL_SOLVER_IMPLEMENTATION_PLAN.md` "Deferred review findings
    (PR #48)". All are **latent** - none fires on the five golden-master fixtures - and all are
    pre-existing defects in the Phase 5 heal/reconstruct and raw-adoption paths (air-panel/gap-fill
    provenance and emission consistency, the rebuild cell-count gate, the raw-adoption gate's under-split
@@ -1534,11 +1534,11 @@ dotnet test Testing/SAM.OCCT.IntegrationTests/SAM.OCCT.IntegrationTests.csproj -
 
 ## Adoption-gate hardening (docs/CELLCOMPLEX_FIRST_HANDOVER.md, Phase P4)
 
-P4 closes the two "watertight-but-wrong" adoption-gate holes (deferred codex findings #3 and #7) without
+P4 closes the two "watertight-but-wrong" adoption-gate holes (deferred review findings #3 and #7) without
 moving any of the five golden fixtures - they still adopt exactly as before (verified byte-identical, the
 findings do not fire on them).
 
-- **Codex #3 - consolidation-rebuild baseline** (`Panel3DSnapSolver.FinalizeAndValidate`): the direct
+- **Finding #3 - consolidation-rebuild baseline** (`Panel3DSnapSolver.FinalizeAndValidate`): the direct
   (history-capturing) rebuild of the appended set is now accepted only when it does not regress versus the
   APPENDED set's OWN decoded cell/naked counts - the fallback it would replace - not the pre-append
   `resolveCellCount`. That old baseline was measured before patches/retained faces were appended and was
@@ -1546,7 +1546,7 @@ findings do not fire on them).
   could still pass `rebuiltCells >= resolveCellCount` and be wrongly adopted. The appended set is decoded
   once, up front, only when a rebuild is attempted, and reused by the reject path (no second decode). The
   acceptance rule is extracted as the pure, unit-testable `AcceptConsolidationRebuild`.
-- **Codex #7 - under-split raw adoption** (`Panel3DSnapSolver.EvaluateRawAdoption` + `CountUnderSplitCells`):
+- **Finding #7 - under-split raw adoption** (`Panel3DSnapSolver.EvaluateRawAdoption` + `CountUnderSplitCells`):
   a new gate, checked after the coarse dropped-RATIO test, rejects a raw solve when a dropped input face is a
   room-dividing partition the build failed to imprint - so two rooms silently merged into one watertight
   cell (a case the dropped-ratio check misses when only one partition of many faces is dropped, e.g. 0-14%).

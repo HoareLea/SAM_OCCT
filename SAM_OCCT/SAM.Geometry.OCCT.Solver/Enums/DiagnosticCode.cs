@@ -101,7 +101,7 @@ namespace SAM.Geometry.OCCT.Solver
         CellExcludedFromSpaces,
 
         /// <summary>Raw adoption rejected because a dropped room-dividing partition sits strictly inside an
-        /// adopted cell (rooms merged watertight-but-wrong) - the under-split gate (codex #7, P4). Appended at
+        /// adopted cell (rooms merged watertight-but-wrong) - the under-split gate (P4). Appended at
         /// the end of the enum so existing members keep their ordinal values (public-enum binary contract).</summary>
         UnderSplit,
 

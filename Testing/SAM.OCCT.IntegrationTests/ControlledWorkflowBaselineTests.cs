@@ -448,8 +448,7 @@ namespace SAM.OCCT.IntegrationTests
             // Compare against the expected floor-to-ceiling span of the level(s) the two spaces occupy, not
             // just the (much tighter) band around the two seed elevations - a wall-like panel that only
             // covers a ~0.1 m gap between two same-floor seeds is a partial-height fragment/upstand that
-            // cannot bound a room, and must not be reported as a usable separator candidate (codex review,
-            // PR #57).
+            // cannot bound a room, and must not be reported as a usable separator candidate.
             double[] spanA = ExpectedLevelSpan(locationA);
             double[] spanB = ExpectedLevelSpan(locationB);
             double zMin = System.Math.Min(spanA[0], spanB[0]);

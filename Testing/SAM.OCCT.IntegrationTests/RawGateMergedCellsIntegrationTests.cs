@@ -19,7 +19,7 @@ namespace SAM.OCCT.IntegrationTests
     /// ways: on a small fixture with a tightened <c>MaxDroppedRatio</c> the dropped-face ratio check trips
     /// (the undersized partition bounds no closed cell, so it is "dropped"); and at the real-world-calibrated
     /// DEFAULT ratio - where one dropped face of seven stays under the ceiling - the P4 under-split gate
-    /// (codex #7) trips instead, because the dropped partition is wall-like, strictly interior to the one
+    /// trips instead, because the dropped partition is wall-like, strictly interior to the one
     /// merged cell, and nearly fills its cross-section. Either way raw is rejected and the managed pipeline
     /// extends the partition up to the ceiling like any other wall and correctly separates the two rooms.
     /// </summary>
@@ -85,7 +85,7 @@ namespace SAM.OCCT.IntegrationTests
         [SkippableFact]
         public void Execute_UndersizedPartitionWithDefaultMaxDroppedRatio_UnderSplitGateRejectsAndManagedSeparatesRooms()
         {
-            // The codex #7 hole, closed in P4. With the real-world-calibrated default MaxDroppedRatio (0.30)
+            // The under-split hole, closed in P4. With the real-world-calibrated default MaxDroppedRatio (0.30)
             // this fixture's ~14% dropped ratio does NOT trip the dropped-ratio check - before P4 the merged
             // (watertight-but-wrong) single-cell result was adopted outright. The under-split gate now catches
             // it WITHOUT needing the per-model 0.10 override the sibling test uses: the dropped partition is
